@@ -21,17 +21,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "writer")
-public class Board extends BaseEntity {
+@ToString(exclude = "board")
+public class Reply extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long bid;
-	
+	private Long rid;
+
 	@Column(length = 100, nullable = false)
-	private String title;
+	private String replier;
 	@Column(length = 500, nullable = false)
 	private String body;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Member writer;
+	private Board board;
 }

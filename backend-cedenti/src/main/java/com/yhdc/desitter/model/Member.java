@@ -1,61 +1,49 @@
 package com.yhdc.desitter.model;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.yhdc.desitter.jointable.BoardRegistration;
-import com.yhdc.desitter.jointable.CommentRegistration;
-import com.yhdc.desitter.jointable.SitterRegistration;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long mid;
 
+	@Column(length = 20, nullable = false)
 	private String username;
+	@Column(length = 20, nullable = false)
 	private String password;
+	@Column(length = 20, nullable = false)
 	private String email;
+	@Column(length = 20, nullable = false)
 	private String firstname;
-	private String lastname; 
+	@Column(length = 20, nullable = false)
+	private String lastname;
+	@Column(length = 20, nullable = false)
 	private Long phone;
+	@Column(length = 100, nullable = false)
 	private String address;
+	@Column(nullable = false)
 	private String role;
+	@Column(nullable = false)
 	private String authority;
-	private String active;
+	@Column(nullable = false)
+	private int active;
 
-	@OneToMany(mappedBy = "member")
-	private List<Pet> pets;
-
-	@OneToMany(mappedBy = "sitter")
-	private List<SitterRegistration> sitters;
-
-	@OneToMany(mappedBy = "board")
-	private List<BoardRegistration> boards;
-	
-	@OneToMany(mappedBy = "comment")
-	private List<CommentRegistration> comments;
-
-	@CreationTimestamp
-	private Timestamp createDate;
-	@UpdateTimestamp
-	private Timestamp updateDate;
 }

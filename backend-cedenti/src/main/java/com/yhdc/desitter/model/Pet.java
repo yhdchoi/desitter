@@ -1,42 +1,39 @@
 package com.yhdc.desitter.model;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.yhdc.desitter.jointable.SitterRegistration;
-
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data
-@ToString
-public class Pet {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(exclude = "owner")
+public class Pet extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long pid;
 	
+	@Column(length = 10, nullable = false)
 	private String petname;
-	private int petage;
+	@Column(length = 20, nullable = false)
+	private String breed;
+	private int petBirthdate;
 	
-	@ManyToOne
-	private Member member;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Member owner;
 	
-	@OneToMany(mappedBy = "sitter")
-	private List<SitterRegistration> sitters;
-	
-	@CreationTimestamp
-	private Timestamp createDate;
-	@UpdateTimestamp
-	private Timestamp updateDate;
 }

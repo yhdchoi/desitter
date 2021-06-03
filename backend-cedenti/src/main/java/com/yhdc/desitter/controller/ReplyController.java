@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yhdc.desitter.model.Comment;
+import com.yhdc.desitter.model.Reply;
 import com.yhdc.desitter.response.Message;
 import com.yhdc.desitter.response.ResponseMsg;
 import com.yhdc.desitter.response.StatusEnum;
-import com.yhdc.desitter.service.CommentService;
+import com.yhdc.desitter.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-public class CommentController {
+public class ReplyController {
 
-	private final CommentService commentService;
+	private final ReplyService replyService;
 	private final ResponseMsg responseMsg;
 
 // GET
@@ -34,8 +34,8 @@ public class CommentController {
 
 		// TODO: Check Permit
 
-		List<Comment> comment = commentService.getAllComment();
-		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(comment, StatusEnum.NOT_FOUND,
+		List<Reply> reply = replyService.getAllComment();
+		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(reply, StatusEnum.NOT_FOUND,
 				StatusEnum.FOUND);
 
 		return reponseMessage;
@@ -47,8 +47,8 @@ public class CommentController {
 
 		// TODO: Security Check Permit
 
-		Comment comment = commentService.getCommentById(id);
-		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(comment, StatusEnum.NOT_FOUND,
+		Reply reply = replyService.getCommentById(id);
+		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(reply, StatusEnum.NOT_FOUND,
 				StatusEnum.FOUND);
 
 		return reponseMessage;
@@ -57,12 +57,12 @@ public class CommentController {
 // POST
 	@CrossOrigin
 	@PostMapping("/newcomment")
-	public ResponseEntity<Message> postBoard(@RequestBody Comment newcomment) {
+	public ResponseEntity<Message> postBoard(@RequestBody Reply newcomment) {
 
 		// TODO: Check Permit
 
-		Comment comment = commentService.postComment(newcomment);		
-		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(comment, StatusEnum.BAD_REQUEST,
+		Reply reply = replyService.postComment(newcomment);		
+		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(reply, StatusEnum.BAD_REQUEST,
 				StatusEnum.CREATED);
 
 		return reponseMessage;
@@ -71,11 +71,11 @@ public class CommentController {
 // PUT
 	@CrossOrigin
 	@PutMapping("/comment/{id}")
-	public ResponseEntity<Message> putUser(@PathVariable Long id, @RequestBody Comment comment) {
+	public ResponseEntity<Message> putUser(@PathVariable Long id, @RequestBody Reply reply) {
 
 		// TODO: Check Permit
 
-		Comment updatedComment = commentService.putComment(id, comment);
+		Reply updatedComment = replyService.putComment(id, reply);
 		ResponseEntity<Message> reponseMessage = responseMsg.MessageTemplate(updatedComment, StatusEnum.BAD_REQUEST,
 				StatusEnum.OK);
 
@@ -89,7 +89,7 @@ public class CommentController {
 
 		// TODO: Check Permit
 
-		int returnCode = commentService.deleteComment(id);
+		int returnCode = replyService.deleteComment(id);
 		ResponseEntity<Message> reponseMessage = responseMsg.MessageDelTemplate(returnCode,
 				StatusEnum.INTERNAL_SERVER_ERROR, StatusEnum.OK);
 
